@@ -22,8 +22,15 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.apache.poi:poi-ooxml:5.4.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.ai:spring-ai-starter-model-ollama:1.0.0-M6'
 
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.ai:spring-ai-bom:1.0.0-M6"
+    }
 }
 
 tasks.named('test') {

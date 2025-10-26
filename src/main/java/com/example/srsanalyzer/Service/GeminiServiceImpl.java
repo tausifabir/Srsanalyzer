@@ -54,7 +54,7 @@ public class GeminiServiceImpl implements GeminiService {
     }
   }
 
-  private static String getPromptWithGivenFiles(String srsA, String srsB, String givenPrompt) {
+  static String getPromptWithGivenFiles(String srsA, String srsB, String givenPrompt) {
     String prompt = """
         You are an AI Business Analyst.
         Compare the two SRS documents and provide:
