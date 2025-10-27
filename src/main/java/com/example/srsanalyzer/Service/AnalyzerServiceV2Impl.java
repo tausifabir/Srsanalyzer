@@ -1,5 +1,7 @@
 package com.example.srsanalyzer.Service;
 
+import com.example.srsanalyzer.Entity.MemoryEntity;
+import com.example.srsanalyzer.Repository.MemoryRepository;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.BufferedReader;
@@ -9,6 +11,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,14 +21,18 @@ public class AnalyzerServiceV2Impl implements AnalyzerServiceV2 {
 
 
   private final DocumentReaderService documentReader;
+  private final MemoryRepository memoryRepository;
   private static final Gson GSON = new Gson();
 
-  public AnalyzerServiceV2Impl(DocumentReaderService documentReader) {
+  public AnalyzerServiceV2Impl(DocumentReaderService documentReader,
+                               MemoryRepository memoryRepository) {
     this.documentReader = documentReader;
+    this.memoryRepository = memoryRepository;
   }
 
   @Override
   public String compare(MultipartFile fileA, MultipartFile fileB, String prompt) throws IOException {
+
     String srsA = documentReader.readMultipart(fileA);
 //    String srsB = documentReader.readMultipart(fileB);
 
@@ -58,6 +66,15 @@ public class AnalyzerServiceV2Impl implements AnalyzerServiceV2 {
       }
     }
 
+      Map<String, String> memory = new HashMap<>();
+
+    //String key = fileA.getOriginalFilename() + "|" + fileB.getOriginalFilename();
+
+    memory.put(prompt, response.toString().trim());
+    MemoryEntity memoryEntity = new MemoryEntity();
+    memoryEntity.setMemory(memory);
+    //memoryEntity =  this.memoryRepository.save(memoryEntity);
+    System.out.println(GSON.toJson(memoryEntity));
     conn.disconnect();
     return response.toString().trim();
   }

@@ -1,4 +1,4 @@
-package com.example.srsanalyzer.constants;
+package com.example.srsanalyzer.Constants;
 
 public class ApplicationConstants {
 

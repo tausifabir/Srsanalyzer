@@ -1,7 +1,7 @@
 package com.example.srsanalyzer.Service;
 
-import static com.example.srsanalyzer.constants.ApplicationConstants.API_KEY;
-import static com.example.srsanalyzer.constants.ApplicationConstants.GEMINI_BASE_URL;
+import static com.example.srsanalyzer.Constants.ApplicationConstants.API_KEY;
+import static com.example.srsanalyzer.Constants.ApplicationConstants.GEMINI_BASE_URL;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
