@@ -43,7 +43,7 @@ public class AnalyzerRestController {
    */
   @PostMapping("/V2")
   public String analyzeFilesV2(@RequestParam("file1") MultipartFile file1,
-                             @RequestParam("file2") MultipartFile file2,
+                             @RequestParam(required = false) MultipartFile file2,
                              @RequestParam(required = false)
                              String prompt
   )

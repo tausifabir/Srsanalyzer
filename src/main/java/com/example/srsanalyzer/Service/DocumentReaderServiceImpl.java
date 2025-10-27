@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,15 +20,31 @@ public class DocumentReaderServiceImpl implements DocumentReaderService {
 
 
   public String readMultipart(MultipartFile file) throws IOException {
-    String filename = file.getOriginalFilename().toLowerCase();
+    String filename = file.getOriginalFilename();
+
+    if (filename == null) {
+      throw new IOException("File has no name.");
+    }
+
     if (filename.endsWith(".docx")) {
       return readDocx(file.getInputStream());
+    } else if (filename.endsWith(".pdf")) {
+      return readPdf(file.getInputStream());
     } else {
       return new BufferedReader(new InputStreamReader(file.getInputStream()))
           .lines()
           .collect(Collectors.joining("\n"));
     }
   }
+
+  private String readPdf(InputStream inputStream) throws IOException {
+    try (PDDocument document = PDDocument.load(inputStream)) {
+      PDFTextStripper pdfStripper = new PDFTextStripper();
+      return pdfStripper.getText(document);
+    }
+  }
+
+
 
   @Override
   public String readFromPath(String path) throws FileNotFoundException {
