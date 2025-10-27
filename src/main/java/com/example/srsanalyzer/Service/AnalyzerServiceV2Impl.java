@@ -41,6 +41,7 @@ public class AnalyzerServiceV2Impl implements AnalyzerServiceV2 {
     // Call Ollama local model (e.g., llama3)
     JsonObject request = new JsonObject();
     request.addProperty("model", "llama3.2:latest"); // You can change this model name
+//    request.addProperty("model", "llama3.1:latest"); // You can change this model name
     request.addProperty("prompt", fullPrompt);
 
     URL url = new URL("http://localhost:11434/api/generate");
